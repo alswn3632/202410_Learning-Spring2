@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d %-5p - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- Application Loggers -->
+  <logger name="com.ezen.spring" level="info" appender-ref="STDOUT" />
+  <logger name="org.springframework.core" level="info" appender-ref="STDOUT" />
+  <logger name="org.springframework.beans" level="info" appender-ref="STDOUT" />
+  <logger name="org.springframework.context" level="info" appender-ref="STDOUT" />
+  <logger name="org.springframework.web" level="info" appender-ref="STDOUT" />
+  <logger name="org.springframework.jdbc" level="info" appender-ref="STDOUT" />
+  <logger name="jdbc.sqlonly" level="info" appender-ref="STDOUT" />
+  <logger name="sdbc.resultsettable" level="info" appender-ref="STDOUT" />
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
