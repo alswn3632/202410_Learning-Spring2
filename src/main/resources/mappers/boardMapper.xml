@@ -9,7 +9,60 @@
 	</insert>
 	
 	<select id="getList" resultType="com.ezen.spring.domain.BoardVO">
-		select * from board where is_Del = 'N' order by bno desc limit 0,10
+		select * from board where is_Del = 'N' 
+		<include refid="search"></include>
+		order by bno desc limit #{pageStart}, #{qty}
 	</select>
-
+	
+	<!-- search 동적 쿼리 -->
+	<!-- 
+		 select * from board 
+		 where is_Del = 'N' 
+		 and (title like concat('%', keyword, '%') or writer like concat('%', keyword, '%'))
+		 order by bno desc
+		 limiy #{pageStart}, #{qty}	
+	 -->
+	<sql id="search">
+		<if test="type != null">
+			<trim prefix="and (" suffix=")" suffixOverrides="or">
+				<foreach collection="typeToArray" item="type">
+					<trim suffix="or">
+						<choose>
+							<when test="type == 't'.toString()">
+								title like concat('%', #{keyword}, '%')
+							</when>
+							<when test="type == 'w'.toString()">
+								writer like concat('%', #{keyword}, '%')
+							</when>
+							<when test="type == 'c'.toString()">
+								content like concat('%', #{keyword}, '%')
+							</when>
+						</choose>
+					</trim>			
+				</foreach>
+			</trim>	
+		</if>
+	</sql>
+	
+	<select id="getDetail" resultType="com.ezen.spring.domain.BoardVO">
+		select * from board where bno = #{bno}
+	</select>
+	
+	<update id="update">
+		update board set title=#{title}, content=#{content} where bno = #{bno}
+	</update>
+	
+	<update id="delete">
+		update board set is_Del = 'Y' where bno = #{bno}
+	</update>
+	
+	<select id="getTotal" resultType="int">
+		select count(bno) from board where is_Del = 'N' 
+		<include refid="search"></include>
+	</select>
+	
+	<update id="readCount">
+		update board set read_Count = read_Count + 1 where bno = #{bno}
+	</update>
+	
 </mapper>  

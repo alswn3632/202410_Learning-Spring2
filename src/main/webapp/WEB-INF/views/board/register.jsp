@@ -6,6 +6,7 @@
 	
 		<div class="container-md">
 			<h3>Board Register Page!!</h3>
+			<hr>
 			<form action="/board/insert" method="post">
 				<div class="mb-3">
 				  <label for="t" class="form-label">title</label>
@@ -19,7 +20,7 @@
 				  <label for="c" class="form-label">content</label>
 				  <textarea class="form-control" name="content" id="c" rows="3"></textarea>
 				</div>
-				<button type="submit" class="btn btn-primary">register</button>
+				<button type="submit" class="btn btn-primary">등록</button>
 			</form>
 		</div>
 	

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+📝 웹 개발자 과정 59일차 - Spring 개발 환경 구축 + javaClass 설정<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 		
 		<div class="container-md">
 			<h3>Board List Page!!</h3>
-			
+			<hr>
 		</div>
 		
 		<jsp:include page="../layout/footer.jsp"></jsp:include>
