@@ -8,3 +8,12 @@ reg_date datetime default now(),
 read_count int default 0,
 is_del varchar(5) default 'N',
 primary key(bno));
+
+--2024-10-31
+create table comment(
+cno bigint auto_increment,
+bno bigint not null,
+writer varchar(500) not null,
+content text not null,
+reg_date datetime default now(),
+primary key(cno));

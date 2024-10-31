@@ -39,4 +39,5 @@
 		    </div>
 		  </div>
 		</nav>
+		<hr>
 	</div>

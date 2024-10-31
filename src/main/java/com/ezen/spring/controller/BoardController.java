@@ -75,6 +75,7 @@ public class BoardController {
 		
 		if(path.equals("/board/detail")) {
 			int isOk = bsv.readCount(bno);
+			log.info(">>>> readCount > {}", (isOk>0? "성공" : "실패"));
 		}
 		
 		BoardVO bvo = bsv.getDetail(bno);

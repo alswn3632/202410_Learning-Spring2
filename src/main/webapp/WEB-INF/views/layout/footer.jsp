@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 	<div class="container-md">
+		<hr>
+		<br>
 		2024 Spring Project (by CHACHA)
 	</div>
 </body>
