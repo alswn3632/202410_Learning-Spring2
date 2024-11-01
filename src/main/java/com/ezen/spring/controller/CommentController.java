@@ -51,7 +51,7 @@ public class CommentController {
 	
 	@GetMapping(value="/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> list(@PathVariable("bno") long bno, @PathVariable("page") int page){
-		PagingVO pgvo = new PagingVO(page, 5);
+		PagingVO pgvo = new PagingVO(page, 5); //DB에 전달할 값을 설정 limit 0, x
 		PagingHandler ph = csv.getList(bno, pgvo);
 		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
 	}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- DAOImpl() 없음 => namespace로 DAO interface를 연결하고 id는 메서드명으로 연결할 것임 -->
+<mapper namespace="com.ezen.spring.dao.FileDAO">
+
+	<insert id="insertFile">
+		insert into file(uuid, save_dir, file_name, file_type, bno, file_size)
+		values(#{uuid}, #{saveDir}, #{fileName}, #{fileType}, #{bno}, #{fileSize})
+	</insert>
+	
+	<select id="getList" resultType="com.ezen.spring.domain.FileVO">
+		select * from file where bno = #{bno}
+	</select>
+	
+</mapper>

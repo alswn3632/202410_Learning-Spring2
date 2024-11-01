@@ -1,6 +1,9 @@
 package com.ezen.spring.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -18,7 +21,10 @@ public class ServletConfiguration implements WebMvcConfigurer{
 		// 앞의 경로는 핸들러에 지정할 이름, 뒤의 경로는 실제 경로
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 		
-		// 나중에 파일 업로드 경로도 추가할 예정
+		// **(추가) 파일 업로드 경로
+		// "D:\\_myproject\\_java\\_fileUpload"  경로를 간단하게 줄여줌
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:\\_myproject\\_java\\_fileUpload\\");
+		
 	}
 
 	@Override
@@ -34,6 +40,12 @@ public class ServletConfiguration implements WebMvcConfigurer{
 		registry.viewResolver(viewResolver);
 	}
 	
-	// 파일 업로드를 위한 리졸버 추가할 예정
+	// **(추가) 파일 업로드를 위한 리졸버
+	// Bean 이름이 multipartResolver 여야 에러가 발생하지 않음
+	@Bean(name = "multipartResolver")
+	public MultipartResolver getMultipartResolver() {
+		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+		return multipartResolver;
+	}
 	
 }

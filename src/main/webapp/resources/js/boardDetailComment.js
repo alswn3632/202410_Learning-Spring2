@@ -37,10 +37,14 @@ document.getElementById('cmtAddBtn').addEventListener('click', ()=>{
 function spreadCommentList(bno, page=1){
     getCommentListFromServer(bno, page).then(result =>{
         console.log(result);
+        // result는 ph값
+        // result 안의 cmtList가 있으면된다. 
         const ul = document.getElementById('cmtListArea');
-        if(result.length > 0){
-            ul.innerHTML = "";
-            for(let cvo of result){
+        if(result.cmtList.length > 0){
+            if(page == 1){
+                ul.innerHTML = ""; // 반복 전 기존 샘플 버리기 (더보기 버튼에 의한 누적 불가능)
+            }
+            for(let cvo of result.cmtList){
                 let li = `<li class="list-group-item" data-cno=${cvo.cno}>`;
                 li += `<div class="ms-2 me-auto">`;
                 li += `<div class="fw-bold"><span class="cmtWriterMod">${cvo.writer}</span> <span class="badge text-bg-primary rounded-pill">${cvo.regDate}</span>`;
@@ -49,6 +53,19 @@ function spreadCommentList(bno, page=1){
                 li += `<button type="button" class="btn btn-secondary btn-sm del" data-cno=${cvo.cno}>삭제</button>`;
                 li += `</li>`;
                 ul.innerHTML += li;
+            }
+            // 더보기 버튼의 숨김 여부 체크 코드
+            let moreBtn = document.getElementById('moreBtn');
+            // 더보기 버튼이 표시되는 조건
+            // result = ph > pgvo > pageNo가 1인데 realEndPage 보다 작다면 보여질 것 
+            // 현재 페이지가 전체 페이지보다 작으면 표시
+            if(result.pgvo.pageNo < result.realEndPage){
+                // style.visibility = "hidden" : 숨김 / "visible" : 표시
+                moreBtn.style.visibility = 'visible'; // 버튼 표시
+                moreBtn.dataset.page = page + 1; // 1 페이지 증가   
+            }else{
+                // 현재 페이지가 전체보다 작지 않다면
+                moreBtn.style.visibility = 'hidden'; // 다시 숨김 처리
             }
         }else{
             ul.innerHTML = `<li class="list-group-item">Comment List Empty</li>`;
@@ -105,16 +122,17 @@ document.addEventListener('click', (e)=>{
             if(result == '1'){
                 alert("댓글 삭제 성공");
             }else{
-                alert("댓글 삭제ㄴ 실패!");
+                alert("댓글 삭제 실패!");
             }
             // 삭제 후 댓글 출력
             spreadCommentList(bnoVal);
         });
     }
-
+    
     if(e.target.id == 'moreBtn'){
-        let page = e.target.dataset.page;
-
+        // 바껴줘~~~
+        let page = parseInt(e.target.dataset.page);
+        spreadCommentList(bnoVal, page);
     }
 
 });

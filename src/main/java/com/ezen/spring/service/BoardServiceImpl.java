@@ -3,9 +3,13 @@ package com.ezen.spring.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.spring.dao.BoardDAO;
+import com.ezen.spring.dao.FileDAO;
+import com.ezen.spring.domain.BoardDTO;
 import com.ezen.spring.domain.BoardVO;
+import com.ezen.spring.domain.FileVO;
 import com.ezen.spring.domain.PagingVO;
 
 import lombok.RequiredArgsConstructor;
@@ -17,12 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardServiceImpl implements BoardService{
 	
 	private final BoardDAO bdao;
+	
+	private final FileDAO fdao;
 
-	@Override
-	public int insert(BoardVO bvo) {
-		// TODO Auto-generated method stub
-		return bdao.insert(bvo);
-	}
+//	@Override
+//	public int insert(BoardVO bvo) {
+//		// TODO Auto-generated method stub
+//		return bdao.insert(bvo);
+//	}
 
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
@@ -30,10 +36,22 @@ public class BoardServiceImpl implements BoardService{
 		return bdao.getList(pgvo);
 	}
 
+//	@Override
+//	public BoardVO getDetail(int bno) {
+//		// TODO Auto-generated method stub
+//		return bdao.getDetail(bno);
+//	}
+	
+	@Transactional
 	@Override
-	public BoardVO getDetail(int bno) {
-		// TODO Auto-generated method stub
-		return bdao.getDetail(bno);
+	public BoardDTO getDetail(int bno) {
+		// bdao > bno , fdao > fvo 받아서 합쳐서 보내야함
+		BoardVO bvo = bdao.getDetail(bno);
+		
+		List<FileVO> flist = fdao.getList(bno);
+		
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		return bdto;
 	}
 
 	@Override
@@ -57,5 +75,33 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int readCount(int bno) {
 		return bdao.readCount(bno);
+	}
+
+	@Transactional // insert가 실행되는 동안은 구문이 완전히 적용되지 않음 
+	// => insert하고 bvo를 넣고 bno를 가져올 동안 다른 동작이 테이블에 접근할 수 없음
+	// => 안전하게 bno를 가져올 수 있게 된다.
+	@Override
+	public int insert(BoardDTO bdto) {
+		// bvo + file 
+		// bvo 먼저 insert하고난 후 bno를 DB에서 가져와야함! > fvo를 DB에 저장
+		
+		// 1. bvo 넣기
+		int isOk = bdao.insert(bdto.getBvo());
+		
+		// 2. 방금 넣은 bvo에서 bno 가져오기
+		if(bdto.getFlist() == null) {
+			// 첨부파일이 없다면? 여기서 끝
+			return isOk;
+		}
+		if(isOk>0 && bdto.getFlist().size() > 0) {
+			// bvo 잘 들어갔고, flist도 잘 갖춰져있다면?
+			long bno = bdao.getOneBno(); // 가장 마지막에 저장된 튜플의 bno
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bno);
+				// 하나라도 실패하면 롤백
+				isOk *= fdao.insertFile(fvo);
+			}
+		}
+		return isOk;
 	}
 }

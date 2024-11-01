@@ -14,6 +14,10 @@
 		order by bno desc limit #{pageStart}, #{qty}
 	</select>
 	
+	<select id="getOneBno" resultType="long">
+		select max(bno) from board
+	</select>
+	
 	<!-- search 동적 쿼리 -->
 	<!-- 
 		 select * from board 
