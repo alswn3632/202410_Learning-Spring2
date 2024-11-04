@@ -22,7 +22,11 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public int post(CommentVO cvo) {
 		// TODO Auto-generated method stub
-		return cdao.post(cvo);
+		int isOk = cdao.post(cvo);
+		if(isOk>0) {
+			isOk *= cdao.countUp(cvo.getBno());
+		}
+		return isOk;
 	}
 
 //	@Override
@@ -39,8 +43,11 @@ public class CommentServiceImpl implements CommentService{
 
 	@Override
 	public int delete(long cno) {
-		// TODO Auto-generated method stub
-		return cdao.delete(cno);
+		int isOk = cdao.countDown(cno);
+		if(isOk>0) {
+			isOk *= cdao.delete(cno);
+		}
+		return isOk;
 	}
 
 	@Override

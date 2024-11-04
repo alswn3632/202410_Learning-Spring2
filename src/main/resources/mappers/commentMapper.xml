@@ -25,4 +25,14 @@
 	<select id="getTotalCount" resultType="int">
 		select count(cno) from comment where bno = #{bno}
 	</select>
+	
+	<update id="countUp">
+		update board set cmt_qty = cmt_qty + 1 where bno = #{bno}	
+	</update>
+	
+	<update id="countDown">
+		update board b set cmt_qty = cmt_qty - 1 where b.bno = (select c.bno from comment c where c.cno = #{cno});
+	</update>
+	
+	
 </mapper>

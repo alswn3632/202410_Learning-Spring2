@@ -14,4 +14,20 @@
 		select * from file where bno = #{bno}
 	</select>
 	
+	<delete id="deleteFile">
+		delete from file where uuid = #{uuid}
+	</delete>
+	
+	<select id="selectListAllFile" resultType="com.ezen.spring.domain.FileVO">
+		select * from file
+	</select>
+	
+	<update id="countUp">
+		update board b set has_file = (select count(*) from file f where f.bno = b.bno) where bno = #{bno};
+	</update>
+	
+	<update id="countDown">
+		update board b set has_file = has_file - 1 where b.bno = (select f.bno from file f where f.uuid = #{uuid});
+	</update>
+	
 </mapper>

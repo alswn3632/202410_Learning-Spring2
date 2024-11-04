@@ -21,4 +21,8 @@ public interface CommentDAO {
 
 	int getTotalCount(long bno);
 
+	int countUp(long bno);
+
+	int countDown(long cno);
+
 }

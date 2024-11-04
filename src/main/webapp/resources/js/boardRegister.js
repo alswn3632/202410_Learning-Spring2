@@ -1,5 +1,5 @@
 
-console.log("boardRegister.js 연결 확인");
+console.log("boardRegister.js in!!");
 
 // 파일 업로드 트리거 버튼 처리
 document.getElementById('trigger').addEventListener('click', ()=>{

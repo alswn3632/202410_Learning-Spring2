@@ -17,7 +17,6 @@
 			<!-- c:set 값을 저장하는 용도  -->
 			<c:set value="${bdto.bvo }" var="bvo"></c:set>
 			<c:set value="${bdto.flist }" var="flist"></c:set>
-			${bdto }
 			<div class="mb-3">
 			  <label for="n" class="form-label">no</label>
 			  <span class="badge rounded-pill text-bg-primary">${bvo.regDate }</span>
@@ -47,14 +46,20 @@
 								<c:when test="${fvo.fileType > 0 }">
 									<!-- 그림 파일 : 출력 -->
 									<div>
-										<img alt="" src="/upload/${fvo.saveDir }/${fvo.uuid}_${fvo.fileName}">
+										<img alt="" src="/upload/${fvo.saveDir }/${fvo.uuid}_${fvo.fileName}" style="max-width: 300px; height: auto;">
+										<div class="fw-bold">${fvo.fileName }</div>
 									</div>
 								</c:when>
 								<c:otherwise>
 									<!-- 일반 파일 : 다운로드 기능 추가 -->
+									<a href="/upload/${fvo.saveDir }/${fvo.uuid}_${fvo.fileName}" download="${fvo.fileName }">
+										<span class="fw-bold">${fvo.fileName }   </span>
+										<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+										</svg>
+									</a>	
 								</c:otherwise>
 							</c:choose> 
-							<div class="fw-bold">${fvo.fileName }</div>
 						</li>
 					</c:forEach>
 				</ul>

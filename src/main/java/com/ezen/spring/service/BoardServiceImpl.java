@@ -54,11 +54,11 @@ public class BoardServiceImpl implements BoardService{
 		return bdto;
 	}
 
-	@Override
-	public int update(BoardVO bvo) {
-		// TODO Auto-generated method stub
-		return bdao.update(bvo);
-	}
+//	@Override
+//	public int update(BoardVO bvo) {
+//		// TODO Auto-generated method stub
+//		return bdao.update(bvo);
+//	}
 
 	@Override
 	public int delete(int bno) {
@@ -93,6 +93,8 @@ public class BoardServiceImpl implements BoardService{
 			// 첨부파일이 없다면? 여기서 끝
 			return isOk;
 		}
+		
+		// 3. bno 가지고 file 등록
 		if(isOk>0 && bdto.getFlist().size() > 0) {
 			// bvo 잘 들어갔고, flist도 잘 갖춰져있다면?
 			long bno = bdao.getOneBno(); // 가장 마지막에 저장된 튜플의 bno
@@ -101,6 +103,38 @@ public class BoardServiceImpl implements BoardService{
 				// 하나라도 실패하면 롤백
 				isOk *= fdao.insertFile(fvo);
 			}
+			// 4. 등록한 파일 개수만큼 업데이트
+			isOk *= fdao.countUp(bdto.getBvo().getBno());
+		}
+		
+		return isOk;
+	}
+
+	@Override
+	public int deleteFile(String uuid) {
+		// 삭제하기 전 file 테이블에서 uuid가 포함된 튜플의 bno를 가져와 일치하는 board 테이블의 튜플을 -1
+		int isOk = fdao.countDown(uuid);
+		if(isOk>0) {
+			isOk *= fdao.deleteFile(uuid);
+		}
+		return isOk;
+	}
+
+	@Transactional
+	@Override
+	public int update(BoardDTO boardDTO) {
+		// insert와 달리 bno가 이미 존재함
+		int isOk = bdao.update(boardDTO.getBvo());
+		if(boardDTO.getFlist() == null) {
+			return isOk;
+		}
+		
+		if(isOk>0 && boardDTO.getFlist().size()>0) {
+			for(FileVO fvo : boardDTO.getFlist()) {
+				fvo.setBno(boardDTO.getBvo().getBno());
+				isOk *= fdao.insertFile(fvo);
+			}
+			isOk *= fdao.countUp(boardDTO.getBvo().getBno());
 		}
 		return isOk;
 	}

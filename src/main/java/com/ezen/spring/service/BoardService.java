@@ -16,7 +16,7 @@ public interface BoardService {
 	
 	BoardDTO getDetail(int bno);	
 
-	int update(BoardVO bvo);
+//	int update(BoardVO bvo);
 
 	int delete(int bno);
 
@@ -25,5 +25,9 @@ public interface BoardService {
 	int readCount(int bno);
 
 	int insert(BoardDTO bdto);
+
+	int deleteFile(String uuid);
+
+	int update(BoardDTO boardDTO);
 	
 }
