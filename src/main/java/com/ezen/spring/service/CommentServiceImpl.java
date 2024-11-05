@@ -3,6 +3,7 @@ package com.ezen.spring.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.spring.dao.CommentDAO;
 import com.ezen.spring.domain.CommentVO;

@@ -55,7 +55,7 @@
 				  		<tr>
 					  	  <td>${bvo.bno }</td>
 					  	  <td>
-						  	  <a href="/board/detail?bno=${bvo.bno }">
+						  	  <a href="/board/detail?bno=${bvo.bno }" style="text-decoration: none; font-weight: bold; color: inherit;">
 						  	  	${bvo.title } 
 						  	  </a>
 						  	  <span >${bvo.hasFile > 0 ? '🔖' : '' }</span>

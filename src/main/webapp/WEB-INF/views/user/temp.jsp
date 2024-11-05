@@ -11,7 +11,7 @@
 		<jsp:include page="../layout/header.jsp"></jsp:include>
 		
 		<div class="container-md">
-			<h3>Board List Page!!</h3>
+			<h3>User ?? Page!!</h3>
 			<hr>
 		</div>
 		

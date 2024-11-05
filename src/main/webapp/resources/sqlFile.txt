@@ -28,3 +28,28 @@ bno bigint,
 file_size bigint,
 reg_date datetime default now(),
 primary key(uuid));
+
+--2024-11-04
+alter table board add cmt_qty int default 0;
+alter table board add has_file int default 0;
+update board b set cmt_qty = (select count(*) from comment c where c.bno = b.bno);
+update board b set has_file = (select count(*) from file f where f.bno = b.bno);
+
+--2024-11-05
+-- 유저(user) 테이블
+create table user(
+email varchar(256),
+pwd varchar(256) not null,
+nickName varchar(256),
+reg_date datetime default now(),
+lastLogin datetime default now(),
+primary key(email));
+
+-- 권한(auth) 테이블
+create table auth(
+id bigint auto_increment,
+email varchar(256) not null,
+auth varchar(256) not null,
+foreign key(email) references user(email),
+primary key(id)
+);
