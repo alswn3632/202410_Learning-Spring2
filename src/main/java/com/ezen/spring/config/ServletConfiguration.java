@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableScheduling
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.ezen.spring.controller","com.ezen.spring.service","com.ezen.spring.handler", /*추가*/"com.ezen.spring.security"})
+@ComponentScan(basePackages = {"com.ezen.spring.controller","com.ezen.spring.service","com.ezen.spring.handler", /*추가*/"com.ezen.spring.security", "com.ezen.spring.exception"})
 public class ServletConfiguration implements WebMvcConfigurer{
 
 	@Override

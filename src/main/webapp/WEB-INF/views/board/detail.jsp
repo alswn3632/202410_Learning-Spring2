@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,11 +75,22 @@
 			<br>
 			<!-- Comment Line -->
 			<!-- Comment Post -->
-			<div class="input-group mb-3">
-			  <span class="input-group-text" id="cmtWriter">test12@tester.com</span>
-			  <input type="text" class="form-control" id="cmtText" placeholder="Add Comment...">
-			  <button class="btn btn-outline-secondary" id="cmtAddBtn" type="button">등록</button>
-			</div>
+			<script type="text/javascript">
+				let authNick = `<c:out value = "" />`
+			</script>
+			<sec:authorize access="isAuthenticated()">
+				<div class="input-group mb-3">
+				  <span class="input-group-text" id="cmtWriter">
+						<sec:authentication property="principal.uvo.nickName" var="authNick"/>
+					    ${authNick }
+				  </span>
+				  <input type="text" class="form-control" id="cmtText" placeholder="Add Comment...">
+				  <button class="btn btn-outline-secondary" id="cmtAddBtn" type="button">등록</button>
+				</div>
+				<script type="text/javascript">
+					authNick = `<c:out value = "${authNick }" />`
+				</script>
+			</sec:authorize>
 			
 			<!-- Comment Print -->
 			<ul class="list-group list-group-flush" id="cmtListArea"></ul>

@@ -25,4 +25,24 @@
 		update user set lastLogin = now() where email = #{email}
 	</update>
 	
+	<select id="getList" resultType="com.ezen.spring.domain.UserVO">
+		select * from user
+	</select>
+	
+	<update id="modifyPwdEmpty">
+		update user set nickName = #{nickName} where email = #{email}
+	</update>
+	
+	<update id="modify">
+		update user set nickName = #{nickName}, pwd = #{pwd} where email = #{email}
+	</update>
+	
+	<delete id="remove">
+		delete from user where email = #{email}
+	</delete>
+	
+	<delete id="removeAuth">
+		delete from auth where email = #{email}
+	</delete>
+	
 </mapper>

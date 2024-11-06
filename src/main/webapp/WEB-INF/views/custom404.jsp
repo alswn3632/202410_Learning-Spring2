@@ -8,13 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<jsp:include page="../layout/header.jsp"></jsp:include>
-		
-		<div class="container-md">
-			<h3>User ?? Page!!</h3>
-			<hr>
-		</div>
-		
-		<jsp:include page="../layout/footer.jsp"></jsp:include>
+	<div class="container-md">
+<%-- 		<h3>
+			<c:out value="${exception }"></c:out>
+		</h3> --%>
+		<img alt="" src="/resources/image/404err.png" style="width: 100%; height: 95vh;">
+		<a href="/">집으로 돌아가~</a>
+	</div>
 </body>
 </html>

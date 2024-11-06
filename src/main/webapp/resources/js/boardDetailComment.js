@@ -2,6 +2,8 @@
 console.log("boardDetailComment.js. in");
 console.log("vscode 연동 성공!");
 
+console.log(authNick);
+
 // 댓글 등록 버튼 이벤트
 document.getElementById('cmtAddBtn').addEventListener('click', ()=>{
     const cmtText = document.getElementById('cmtText');
@@ -49,10 +51,12 @@ function spreadCommentList(bno, page=1){
                 li += `<div class="ms-2 me-auto">`;
                 li += `<div class="fw-bold"><span class="cmtWriterMod">${cvo.writer}</span> <span class="badge text-bg-primary rounded-pill">${cvo.regDate}</span>`;
                 li += `</div>${cvo.content}</div>`;
-                li += `<button type="button" class="btn btn-secondary btn-sm mod" data-cno=${cvo.cno} data-bs-toggle="modal" data-bs-target="#myModal">수정</button> `;
-                li += `<button type="button" class="btn btn-secondary btn-sm del" data-cno=${cvo.cno}>삭제</button>`;
+                if(cvo.writer == authNick){
+                    li += `<button type="button" class="btn btn-secondary btn-sm mod" data-cno=${cvo.cno} data-bs-toggle="modal" data-bs-target="#myModal">수정</button> `;
+                    li += `<button type="button" class="btn btn-secondary btn-sm del" data-cno=${cvo.cno}>삭제</button>`;
+                }
                 li += `</li>`;
-                ul.innerHTML += li;
+                ul.innerHTML += li; 
             }
             // 더보기 버튼의 숨김 여부 체크 코드
             let moreBtn = document.getElementById('moreBtn');
@@ -113,6 +117,8 @@ document.addEventListener('click', (e)=>{
             spreadCommentList(bnoVal);
         });
     }
+
+    
 
     if(e.target.classList.contains('del')){
         let li = e.target.closest('li');

@@ -44,6 +44,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	// 사용자 지정 설정이 필요한 경우 사용 (파일 업로드)
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
+		// 사용자 지정 Exception 처리 설정
+		registration.setInitParameter("throwExceptionIfNoHandlerFound" , "true");
+		
+		
 		// 파일 업로드 설정 (D:\_myproject\_java\_fileUpload)
 		// 위치 설정
 		String uploadLocation = "D:\\_myproject\\_java\\_fileUpload";

@@ -38,13 +38,21 @@
 		          	  <!-- 인증 객체가 만들어져 있는 상태 -->	
 		          	  <!-- 인증된 객체 가져오기 => 현재 로그인 정보는 principal에 들어가 있음 -->
 		          	  <sec:authentication property="principal.uvo.email" var="authEmail"/>		
-		          	  <sec:authentication property="principal.uvo.nickName" var="authNick"/>		
+		          	  <sec:authentication property="principal.uvo.nickName" var="authNick"/>
+		          	  <sec:authentication property="principal.uvo.authList" var="auths"/>
+		          	  		
 			          <li class="nav-item">
 			              <a class="nav-link" href="/board/register">글 쓰기</a>
 			          </li>
 			          <li class="nav-item">
-			              <a class="nav-link" href="#">${authNick }(${authEmail }) </a>
+			              <a class="nav-link" href="/user/modify">회원정보 수정(${authEmail }) </a>
 			          </li>
+			          <!-- 권한 정보를 사용해 어드민만 회원 리스트를 볼 수 있도록함 -->
+					  <c:if test="${auths.stream().anyMatch(authVO -> authVO.auth.equals('ROLE_ADMIN')).get() }">
+				          <li class="nav-item">
+				              <a class="nav-link text-danger" href="/user/list">회원 리스트(ADMIN)</a>
+				          </li>					  	
+					  </c:if>
 			          <li class="nav-item">
 			              <a class="nav-link" href="/user/logout">로그아웃 </a>
 			          </li>

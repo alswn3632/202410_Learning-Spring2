@@ -49,8 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// AuthenticationManagerBuilder가 provider 위치
 		// 인증용 객체를 생성 매니저 설정
 		auth.userDetailsService(customDetailsService()).passwordEncoder(bcPasswordEncoder());
+		// customDetailsService()에서 리턴 받은것 AuthUser => 얘를 가지고 매치가 되는지 체크
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 			.antMatchers("/user/list").hasRole("ADMIN")
 			.antMatchers("/","/user/login","/user/register","/board/list","/board/detail",
-					"/upload/**","/comment/**","/resources/**").permitAll()
+					"/upload/**","/comment/{bno}/{page}","/resources/**").permitAll()
 			.anyRequest().authenticated();
 		
 		// 로그인 페이지 구성 : id => email / pw => pwd
